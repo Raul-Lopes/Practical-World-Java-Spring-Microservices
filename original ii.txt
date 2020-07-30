@@ -1,0 +1,28 @@
+The property spring.hibernate.ddl-auto may take several values such as 
+
+create : It means on startup, Spring Boot will generated the database schema and create the database tables forming DDL from the configuration we have within the Entity Objects
+
+update : It means on startup, Spring Boot will compare the Entity Objects columns and create / delete columns not there , missing from object but present in the database
+
+create-drop : It means that Spring Boot will first drop the tables and recreate them.
+
+none : The production mode. We should not be creating database objects from java most of the time even if how many "experts" have told us to do so. Databases are shared among multiple teams and applications and rarely a single database is solely dedicated to a single team	. Besides, DBAs would like to review database migration scripts. 
+
+validate : Database schema will be validated
+
+create-only : The database schema would be generated but not created.
+
+If you happen to see that even after using create or update as the spring.hibernate.ddl-auto property value, the database tables are not generated, please check the indentation of the property in your yml files. The proper level would be 
+
+spring:
+  jpa:
+    database: MYSQL
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/mydb
+    username: foo
+    password: bar
+    driverClassName: org.postgresql.Driver
